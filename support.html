@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Support - Legend Card Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Modern Support Page Styles */
+        .support-container {
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .support-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .support-header h1 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .support-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .support-option {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            border: 1px solid #eee;
+        }
+
+        .support-option:hover {
+            background-color: #eee;
+        }
+
+        .support-option h3 {
+            color: #3498db;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .support-option p {
+            color: #777;
+        }
+
+        .support-content-area {
+            border-top: 1px solid #ddd;
+            padding-top: 30px;
+        }
+
+        .support-content-area h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #live-chat-section {
+            display: none; /* Hidden by default */
+        }
+
+        #live-chat-section iframe {
+            width: 100%;
+            height: 400px; /* Adjust height as needed */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #contact-form-section {
+            display: none; /* Hidden by default */
+        }
+
+        #contact-form-section form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        #contact-form-section form input[type="text"],
+        #contact-form-section form input[type="email"],
+        #contact-form-section form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #contact-form-section form button[type="submit"] {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        #contact-form-section form button[type="submit"]:hover {
+            background-color: #c0392b;
+        }
+
+        #faq-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #faq-section ul li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+            border-left: 3px solid #ddd;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        #faq-section ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        #faq-section ul li:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="market.html">Card Market</a></li>
+                <li><a href="auction.html">Auction Hall</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="archaeology.html">Card Archaeology</a></li>
+                <li><a href="community.html">Community</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="support-container">
+        <section class="support-header">
+            <h1>Customer Support</h1>
+            <p>How can we help you today?</p>
+        </section>
+
+        <section class="support-options">
+            <div class="support-option" onclick="showSupportContent('live-chat-section')">
+                <h3>Live Chat</h3>
+                <p>Chat with our customer service team online.</p>
+            </div>
+            <div class="support-option" onclick="showSupportContent('contact-form-section')">
+                <h3>Contact Form</h3>
+                <p>Send us a message and we'll get back to you.</p>
+            </div>
+            <div class="support-option" onclick="showSupportContent('faq-section')">
+                <h3>Frequently Asked Questions (FAQ)</h3>
+                <p>Find answers to common questions.</p>
+            </div>
+        </section>
+
+        <section class="support-content-area">
+            <div id="live-chat-section">
+                <h2>Live Chat</h2>
+                <iframe src="YOUR_CHAT_WIDGET_URL" title="Live Chat"></iframe>
+            </div>
+
+            <div id="contact-form-section">
+                <h2>Contact Us</h2>
+                <form>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject">
+
+                    <label for="message">Message:</label><br>
+                    <textarea id="message" name="message" rows="7" required></textarea><br>
+
+                    <button type="submit">Submit Message</button>
+                </form>
+            </div>
+
+            <div id="faq-section">
+                <h2>Frequently Asked Questions (FAQ)</h2>
+                <ul>
+                    <li><a href="#">How do I buy a card?</a></li>
+                    <li><a href="#">How do I sell a card?</a></li>
+                    <li><a href="#">What are the auction rules?</a></li>
+                    <li><a href="#">How is my reputation score calculated?</a></li>
+                    <li><a href="#">What payment methods are accepted?</a></li>
+                    <li><a href="#">What are the shipping options?</a></li>
+                    <li><a href="#">What if I have a dispute with a seller/buyer?</a></li>
+                    <li><a href="#">How do I update my profile information?</a></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Legend Card Hub. All rights reserved.</p>
+        <p>Contact Us | Social Media Links</p>
+    </footer>
+
+    <script>
+        function showSupportContent(sectionId) {
+            const contentSections = document.querySelectorAll('.support-content-area > div');
+            contentSections.forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Show FAQ section by default
+        document.addEventListener('DOMContentLoaded', () => {
+            showSupportContent('faq-section');
+        });
+    </script>
+</body>
+</html>

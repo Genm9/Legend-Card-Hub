@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Archaeology - Legend Card Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="market.html">Card Market</a></li>
+                <li><a href="auction.html">Auction Hall</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="archaeology.html">Card Archaeology</a></li>
+                <li><a href="community.html">Community</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="archaeology-header">
+            <h1>Card Archaeology</h1>
+            <p>Delve into the fascinating history and lore of collectible cards.</p>
+        </section>
+
+        <section class="archaeology-navigation">
+            <button class="archaeology-tab active" data-tab="design-archives">Design Sketch Archives</button>
+            <button class="archaeology-tab" data-tab="designer-interviews">Designer Oral Histories</button>
+            <button class="archaeology-tab" data-tab="card-timeline">Card Timeline Navigation</button>
+        </section>
+
+        <section id="design-archives" class="archaeology-content active">
+            <h2>Design Sketch Archives</h2>
+            <p>Explore rare and early design sketches of your favorite cards.</p>
+            <div class="archive-item">
+                <img src="placeholder-sketch1.jpg" alt="Sketch 1">
+                <h3>Early Charizard Design</h3>
+                <p>A glimpse into the initial concepts for the iconic Charizard.</p>
+            </div>
+            </section>
+
+        <section id="designer-interviews" class="archaeology-content">
+            <h2>Designer Oral Histories</h2>
+            <p>Hear from the creators behind the cards, sharing their insights and stories.</p>
+            <div class="interview-item">
+                <img src="placeholder-designer1.jpg" alt="Designer 1">
+                <h3>Interview with Ken Sugimori</h3>
+                <p>Lead designer of Pokemon discusses the creation process.</p>
+                <a href="#">Watch Interview</a>
+            </div>
+            </section>
+
+        <section id="card-timeline" class="archaeology-content">
+            <h2>Card Timeline Navigation</h2>
+            <p>Explore the history of cards chronologically.</p>
+            <p>Select a year:</p>
+            <select>
+                <option value="1996">1996</option>
+                <option value="1997">1997</option>
+                </select>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Legend Card Hub. All rights reserved.</p>
+        <p>Contact Us | Social Media Links</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const archaeologyTabs = document.querySelectorAll('.archaeology-tab');
+            const archaeologyContents = document.querySelectorAll('.archaeology-content');
+
+            archaeologyTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    archaeologyTabs.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const tabId = this.dataset.tab;
+                    archaeologyContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

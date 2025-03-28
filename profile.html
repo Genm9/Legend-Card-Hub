@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile - Legend Card Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="market.html">Card Market</a></li>
+                <li><a href="auction.html">Auction Hall</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="archaeology.html">Card Archaeology</a></li>
+                <li><a href="community.html">Community</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="profile-header">
+            <h1>Your Profile</h1>
+            <div class="profile-info">
+                <img src="placeholder-profile.png" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%;">
+                <h2>User Name Here</h2>
+                <p>Member since: [Date]</p>
+                <p>Email: [Email Address]</p>
+            </div>
+        </section>
+
+        <section class="profile-navigation">
+            <button class="profile-tab active" data-tab="my-listings">My Listings</button>
+            <button class="profile-tab" data-tab="my-orders">My Orders</button>
+            <button class="profile-tab" data-tab="reputation">Reputation Score</button>
+        </section>
+
+        <section id="my-listings" class="profile-content active">
+            <h2>My Listings</h2>
+            <p>Here you can manage the cards you are currently selling.</p>
+            </section>
+
+        <section id="my-orders" class="profile-content">
+            <h2>My Orders</h2>
+            <p>View your past and current orders.</p>
+            </section>
+
+        <section id="reputation" class="profile-content">
+            <h2>Reputation Score</h2>
+            <p>Your current reputation score: [Score]</p>
+            <p>This score is based on your transaction history and feedback from other users.</p>
+            </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Legend Card Hub. All rights reserved.</p>
+        <p>Contact Us | Social Media Links</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileTabs = document.querySelectorAll('.profile-tab');
+            const profileContents = document.querySelectorAll('.profile-content');
+
+            profileTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    profileTabs.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const tabId = this.dataset.tab;
+                    profileContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,337 @@
+body {
+    font-family: 'Arial', sans-serif; /* A more modern font */
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8; /* Light gray background */
+    color: #333;
+    line-height: 1.6; /* Improved readability */
+}
+
+header {
+    background-color: #2c3e50; /* Darker header */
+    color: #fff;
+    padding: 1.5em 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 1.2em;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out; /* Smooth color transition on hover */
+}
+
+nav a:hover {
+    color: #3498db; /* Highlight color on hover */
+}
+
+main {
+    padding: 30px;
+}
+
+.banner {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative; /* For image slider */
+    overflow: hidden; /* Hide overflowing images */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.banner img {
+    display: block;
+    width: 100%;
+    height: auto;
+    animation: fadeSlide 8s infinite; /* Basic fade animation */
+}
+
+@keyframes fadeSlide {
+    0% { opacity: 0.8; }
+    33% { opacity: 1; }
+    66% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+.core-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out; /* Subtle scale on hover */
+}
+
+.feature-item:hover {
+    transform: scale(1.05);
+}
+
+.feature-item img {
+    max-width: 80px;
+    margin-bottom: 15px;
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.2)); /* Icon shadow */
+}
+
+.feature-item h2 {
+    color: #3498db;
+    margin-top: 0;
+}
+
+.latest-updates {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.latest-updates h2 {
+    color: #e74c3c; /* Different highlight color */
+    border-bottom: 2px solid #e74c3c;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.latest-updates ul {
+    list-style: none;
+    padding: 0;
+}
+
+.latest-updates li {
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 3px solid #ddd;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.latest-updates li:hover {
+    background-color: #f0f0f0;
+}
+
+.market-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.market-header h1 {
+    color: #3498db;
+    margin: 0;
+}
+
+.search-filter {
+    display: flex;
+}
+
+.search-filter input[type="text"],
+.search-filter select {
+    padding: 10px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.search-filter input[type="text"]:focus,
+.search-filter select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+.card-listings {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly wider cards */
+    gap: 30px;
+}
+
+.card-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card-item:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+}
+
+.card-item img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.card-item h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.card-item p {
+    color: #777;
+    margin-bottom: 8px;
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    background-color: #eee;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0 5px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.pagination a:hover {
+    background-color: #ddd;
+}
+
+.auction-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auction-header h1 {
+    color: #e74c3c;
+    margin: 0;
+}
+
+.auction-status-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.auction-status-tabs button {
+    padding: 12px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #f0f0f0;
+    color: #555;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.auction-status-tabs button.active {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.auction-status-tabs button:hover {
+    background-color: #ddd;
+}
+
+.auction-listings {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.auction-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.auction-item:hover {
+    transform: translateY(-5px);
+}
+
+.auction-item img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.auction-item h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.auction-item p {
+    color: #777;
+    margin-bottom: 8px;
+}
+
+.auction-item a {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 20px;
+    background-color: #e74c3c;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.auction-item a:hover {
+    background-color: #c0392b;
+}
+
+footer {
+    background-color: #2c3e50;
+    color: #fff;
+    text-align: center;
+    padding: 1.5em 0;
+    margin-top: 40px;
+    border-top: 1px solid #34495e;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    nav ul li {
+        display: block;
+        margin: 0.8em 0;
+    }
+
+    .market-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-filter {
+        margin-top: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-filter input[type="text"],
+    .search-filter select {
+        margin-left: 0;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+}
