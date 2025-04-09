@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Auctions - Legend Card Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="market.html">Card Market</a></li>
+                <li><a href="auction-ongoing.html">Auction Hall</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="archaeology.html">Card Archaeology</a></li>
+                <li><a href="community.html">Community</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="auction-header">
+            <h1>Upcoming Auctions</h1>
+            <div class="auction-controls">
+                <div class="auction-navigation">
+                    <a href="auction-ongoing.html">Ongoing</a>
+                    <a href="auction-upcoming.html" class="active">Upcoming</a>
+                    <a href="auction-past.html">Past Auctions</a>
+                </div>
+                <div class="auction-search-container">
+                    <input type="text" class="auction-search" placeholder="Search upcoming auctions...">
+                </div>
+            </div>
+        </section>
+
+        <section class="auction-listings">
+            <div class="auction-item" data-id="4">
+                <img src="placeholder-Charizard VMAX.jpg" alt="Charizard VMAX">
+                <h3>Charizard VMAX</h3>
+                <p>Starting Bid: $250.00</p>
+                <p class="time-info countdown-start" data-starts-in="172800">Starts In: Loading...</p>
+                <a href="#auction-4" class="notify-btn">Notify Me</a>
+            </div>
+            <div class="auction-item" data-id="5">
+                <img src="placeholder-Lugia.jpg" alt="Lugia PSA 10">
+                <h3>Lugia PSA 10</h3>
+                <p>Starting Bid: $1200.00</p>
+                <p class="time-info countdown-start" data-starts-in="432000">Starts In: Loading...</p>
+                <a href="#auction-5" class="notify-btn">Notify Me</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Legend Card Hub. All rights reserved.</p>
+        <p>Contact Us | Social Media Links</p>
+    </footer>
+    
+    <script src="auction-upcoming.js"></script>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/67e64434c6d6c4190baef1d4/1indnkrg6';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
+</body>
+</html>

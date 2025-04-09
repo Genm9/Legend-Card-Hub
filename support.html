@@ -6,7 +6,7 @@
     <title>Customer Support - Legend Card Hub</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Modern Support Page Styles */
+        /* Modern Support Page Styles (with FAQ enhancements) */
         .support-container {
             max-width: 960px;
             margin: 30px auto;
@@ -120,19 +120,47 @@
         }
 
         #faq-section ul li {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             padding-left: 10px;
             border-left: 3px solid #ddd;
             transition: background-color 0.2s ease-in-out;
         }
 
-        #faq-section ul li a {
-            text-decoration: none;
-            color: #333;
-        }
-
         #faq-section ul li:hover {
             background-color: #f0f0f0;
+        }
+
+        .faq-question-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .faq-toggle-icon {
+            font-size: 1.2em;
+            color: #777;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .faq-toggle-icon.active {
+            transform: rotate(90deg);
+        }
+
+        .faq-answer {
+            padding: 10px;
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            display: none; /* Hidden by default */
+        }
+
+        .faq-answer.active {
+            display: block;
         }
     </style>
 </head>
@@ -142,7 +170,7 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="market.html">Card Market</a></li>
-                <li><a href="auction.html">Auction Hall</a></li>
+                <li><a href="auction-ongoing.html">Auction Hall</a></li>
                 <li><a href="profile.html">Profile</a></li>
                 <li><a href="support.html">Support</a></li>
                 <li><a href="archaeology.html">Card Archaeology</a></li>
@@ -200,14 +228,78 @@
             <div id="faq-section">
                 <h2>Frequently Asked Questions (FAQ)</h2>
                 <ul>
-                    <li><a href="#">How do I buy a card?</a></li>
-                    <li><a href="#">How do I sell a card?</a></li>
-                    <li><a href="#">What are the auction rules?</a></li>
-                    <li><a href="#">How is my reputation score calculated?</a></li>
-                    <li><a href="#">What payment methods are accepted?</a></li>
-                    <li><a href="#">What are the shipping options?</a></li>
-                    <li><a href="#">What if I have a dispute with a seller/buyer?</a></li>
-                    <li><a href="#">How do I update my profile information?</a></li>
+                    <li onclick="toggleFAQ(this)">
+                        <div class="faq-question-container">
+                            <div class="faq-question">How do I buy a card?</div>
+                            <span class="faq-toggle-icon">&gt;</span>
+                        </div>
+                        <div class="faq-answer">
+                            To buy a card, navigate to the Card Market, search for the card you want, and click on the listing. Follow the prompts to add the card to your cart and complete the checkout process.
+                        </div>
+                    </li>
+                    <li onclick="toggleFAQ(this)">
+                        <div class="faq-question-container">
+                            <div class="faq-question">How do I sell a card?</div>
+                            <span class="faq-toggle-icon">&gt;</span>
+                        </div>
+                        <div class="faq-answer">
+                            To sell a card, go to your Profile and select "My Listings." Click on the "List a Card" button and provide the necessary information, including card details, condition, and price.
+                        </div>
+                    </li>
+                    <li onclick="toggleFAQ(this)">
+                        <div class="faq-question-container">
+                            <div class="faq-question">What are the auction rules?</div>
+                            <span class="faq-toggle-icon">&gt;</span>
+                        </div>
+                        <div class="faq-answer">
+                            Auctions have a set starting price and a time limit. Users can place bids, and the highest bidder when the time expires wins the auction. Some auctions may have a "Buy It Now" option.
+                        </div>
+                    </li>
+                    <li onclick="toggleFAQ(this)">
+                        <div class="faq-question-container">
+                            <div class="faq-question">How is my reputation score calculated?</div>
+                            <span class="faq-toggle-icon">&gt;</span>
+                        </div>
+                        <div class="faq-answer">
+                            Your reputation score is based on your transaction history and the feedback you receive from other users after successful transactions. Positive feedback increases your score, while negative feedback decreases it.
+                        </div>
+                    </li>
+                    <li onclick="toggleFAQ(this)">
+                        <div class="faq-question-container">
+                            <div class="faq-question">What payment methods are accepted?</div>
+                            <span class="faq-toggle-icon">&gt;</span>
+                        </div>
+                        <div class="faq-answer">
+                            We currently accept major credit cards (Visa, Mastercard, American Express) and PayPal. We are exploring adding other payment options in the future.
+                        </div>
+                    </li>
+                    <li onclick="toggleFAQ(this)">
+                        <div class="faq-question-container">
+                            <div class="faq-question">What are the shipping options?</div>
+                            <span class="faq-toggle-icon">&gt;</span>
+                        </div>
+                        <div class="faq-answer">
+                            Shipping options are determined by the seller. You will see the available shipping methods and costs on the card listing page.
+                        </div>
+                    </li>
+                    <li onclick="toggleFAQ(this)">
+                        <div class="faq-question-container">
+                            <div class="faq-question">What if I have a dispute with a seller/buyer?</div>
+                            <span class="faq-toggle-icon">&gt;</span>
+                        </div>
+                        <div class="faq-answer">
+                            If you encounter a dispute, please contact us through the Contact Form or Live Chat with details of the issue. We will review the case and assist in resolving it.
+                        </div>
+                    </li>
+                    <li onclick="toggleFAQ(this)">
+                        <div class="faq-question-container">
+                            <div class="faq-question">How do I update my profile information?</div>
+                            <span class="faq-toggle-icon">&gt;</span>
+                        </div>
+                        <div class="faq-answer">
+                            You can update your profile information by going to your Profile page and clicking on the "Edit Profile" button. You can change your name, email, and other details there.
+                        </div>
+                    </li>
                 </ul>
             </div>
         </section>
@@ -225,6 +317,20 @@
                 section.style.display = 'none';
             });
             document.getElementById(sectionId).style.display = 'block';
+        }
+
+        function toggleFAQ(listItem) {
+            listItem.classList.toggle('active');
+            const answer = listItem.querySelector('.faq-answer');
+            const icon = listItem.querySelector('.faq-toggle-icon');
+
+            if (answer.classList.contains('active')) {
+                answer.classList.remove('active');
+                icon.classList.remove('active');
+            } else {
+                answer.classList.add('active');
+                icon.classList.add('active');
+            }
         }
 
         // Show FAQ section by default
