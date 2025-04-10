@@ -1,454 +1,282 @@
-// script.js
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Homepage Image Slider (Banner)
-    const bannerImages = ['placeholder-banner.jpg']; // Add more images if you have them
-    const banner = document.querySelector('.banner img');
-    let currentImageIndex = 0;
+    // ... (rest of your existing script.js code) ...
 
-    function changeBannerImage() {
-        if (banner) {
-            banner.src = bannerImages[currentImageIndex];
-            currentImageIndex = (currentImageIndex + 1) % bannerImages.length;
-        }
-    }
-
-    if (banner && bannerImages.length > 1) {
-        setInterval(changeBannerImage, 3000); // Change image every 3 seconds
-    }
-};
-
-
-// Card Market Filtering and Pagination
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.querySelector('.search-filter input[type="text"]');
-    const categorySelect = document.querySelector('.search-filter select');
-    const cardItems = document.querySelectorAll('.card-item');
-    const pageNumbers = document.querySelectorAll('.pagination .page-number');
-    const prevButton = document.querySelector('.pagination a:contains("Previous")');
-    const nextButton = document.querySelector('.pagination a:contains("Next")');
-    const cardsPerPage = 3; // Number of cards per page
-    let currentPage = 1;
-
-    function filterCards() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const selectedCategory = categorySelect.value.toLowerCase();
-
-        cardItems.forEach(item => {
-            const title = item.querySelector('h3').textContent.toLowerCase();
-            const categoryMatch = selectedCategory === '' || title.includes(selectedCategory); // Basic category match
-            const searchMatch = title.includes(searchTerm);
-
-            const itemPage = item.dataset.page ? parseInt(item.dataset.page) : 1;
-            const belongsToCurrentPage = itemPage === currentPage;
-
-            if (categoryMatch && searchMatch && belongsToCurrentPage) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
-
-    function showPage(page) {
-        currentPage = page;
-        filterCards(); // Re-apply filtering when page changes
-        updatePaginationButtons();
-    }
-
-    function updatePaginationButtons() {
-        pageNumbers.forEach(page => page.classList.remove('active'));
-        const currentPageButton = document.querySelector(`.pagination a[data-page="${currentPage}"]`);
-        if (currentPageButton) {
-            currentPageButton.classList.add('active');
-        }
-
-        prevButton.style.visibility = currentPage === 1 ? 'hidden' : 'visible';
-        nextButton.style.visibility = currentPage === pageNumbers.length ? 'hidden' : 'visible';
-    }
-
-    function changePageHandler(event) {
-        event.preventDefault();
-        const targetPage = parseInt(event.target.dataset.page);
-        if (!isNaN(targetPage) && targetPage >= 1 && targetPage <= pageNumbers.length) {
-            showPage(targetPage);
-        } else if (event.target === prevButton && currentPage > 1) {
-            showPage(currentPage - 1);
-        } else if (event.target === nextButton && currentPage < pageNumbers.length) {
-            showPage(currentPage + 1);
-        }
-    }
-
-    // Event listeners for filtering
-    if (searchInput && categorySelect) {
-        searchInput.addEventListener('input', filterCards);
-        categorySelect.addEventListener('change', filterCards);
-    }
-
-    // Event listeners for pagination
-    pageNumbers.forEach(page => page.addEventListener('click', changePageHandler));
-    prevButton.addEventListener('click', changePageHandler);
-    nextButton.addEventListener('click', changePageHandler);
-
-    // Initial setup
-    showPage(currentPage);
-    updatePaginationButtons();
-});
-
-// Auction Hall Tabs
-// DOM Elements
-document.addEventListener('DOMContentLoaded', function() {
-    // Tab switching functionality
-    const tabButtons = document.querySelectorAll('.auction-status-tabs button');
-    const auctionItems = document.querySelectorAll('.auction-item');
-    
-    // Sample auction data (in a real app, this would come from a database)
-    const auctions = {
-        ongoing: [
-            { id: 1, name: "Arceus VSTAR", currentBid: 20.00, timeLeft: 34 * 60 * 60 + 10 * 60 * 60 }, // 1d 10h in seconds
-            { id: 2, name: "Rayquaza Gold Star", currentBid: 5500.00, timeLeft: 6 * 24 * 60 * 60 + 15 * 60 * 60 }, // 6d 15h in seconds
-            { id: 3, name: "Umbreon VMAX Alt Art", currentBid: 1400.00, timeLeft: 3 * 24 * 60 * 60 } // 3d in seconds
-        ],
-        upcoming: [
-            { id: 4, name: "Charizard VMAX", startingBid: 250.00, startsIn: 2 * 24 * 60 * 60 }, // 2d in seconds
-            { id: 5, name: "Lugia PSA 10", startingBid: 1200.00, startsIn: 5 * 24 * 60 * 60 } // 5d in seconds
-        ],
-        past: [
-            { id: 6, name: "Blastoise 1st Edition", finalBid: 1800.00, endedAt: "2025-03-28" },
-            { id: 7, name: "Pikachu Illustrator", finalBid: 25000.00, endedAt: "2025-03-15" }
-        ]
-    };
-
-    // Initialize tab functionality
-    initTabs();
-    
-    // Start countdown timers
-    updateCountdowns();
-    setInterval(updateCountdowns, 1000);
-    
-    // Initialize search and filter (if present in the HTML)
-    const searchInput = document.querySelector('.auction-search');
-    if (searchInput) {
-        searchInput.addEventListener('input', filterAuctions);
-    }
-    
-    // Initialize bid buttons
-    const bidButtons = document.querySelectorAll('.place-bid-btn');
-    bidButtons.forEach(btn => {
-        btn.addEventListener('click', handleBidPlacement);
-    });
-    
-    /**
-     * Initialize tab switching functionality
-     */
-    function initTabs() {
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                
-                // Add active class to clicked button
-                button.classList.add('active');
-                
-                // Display auctions based on selected tab
-                const tabType = button.textContent.toLowerCase();
-                displayAuctions(tabType);
-            });
-        });
-    }
-    
-    /**
-     * Display auctions based on tab selected
-     * @param {string} tabType - The type of auctions to display (ongoing, upcoming, past)
-     */
-    function displayAuctions(tabType) {
-        const auctionListings = document.querySelector('.auction-listings');
-        auctionListings.innerHTML = ''; // Clear current auctions
-        
-        let auctionsToDisplay = [];
-        
-        if (tabType.includes('ongoing')) {
-            auctionsToDisplay = auctions.ongoing;
-            
-            auctionsToDisplay.forEach(auction => {
-                const auctionElement = createAuctionElement(auction, 'ongoing');
-                auctionListings.appendChild(auctionElement);
-            });
-        } 
-        else if (tabType.includes('upcoming')) {
-            auctionsToDisplay = auctions.upcoming;
-            
-            auctionsToDisplay.forEach(auction => {
-                const auctionElement = createAuctionElement(auction, 'upcoming');
-                auctionListings.appendChild(auctionElement);
-            });
-        }
-        else if (tabType.includes('past')) {
-            auctionsToDisplay = auctions.past;
-            
-            auctionsToDisplay.forEach(auction => {
-                const auctionElement = createAuctionElement(auction, 'past');
-                auctionListings.appendChild(auctionElement);
-            });
-        }
-    }
-    
-    /**
-     * Create an auction element
-     * @param {Object} auction - The auction object
-     * @param {string} type - The type of auction (ongoing, upcoming, past)
-     * @returns {HTMLElement} - The auction element
-     */
-    function createAuctionElement(auction, type) {
-        const auctionDiv = document.createElement('div');
-        auctionDiv.className = 'auction-item';
-        auctionDiv.dataset.id = auction.id;
-        
-        // Create image (placeholder)
-        const img = document.createElement('img');
-        img.src = `placeholder-${auction.name.replace(/\s/g, '-')}.jpg`;
-        img.alt = auction.name;
-        
-        // Create title
-        const title = document.createElement('h3');
-        title.textContent = auction.name;
-        
-        // Create price info
-        const priceInfo = document.createElement('p');
-        if (type === 'ongoing') {
-            priceInfo.textContent = `Current Bid: $${auction.currentBid.toFixed(2)}`;
-        } else if (type === 'upcoming') {
-            priceInfo.textContent = `Starting Bid: $${auction.startingBid.toFixed(2)}`;
-        } else {
-            priceInfo.textContent = `Final Bid: $${auction.finalBid.toFixed(2)}`;
-        }
-        
-        // Create time info
-        const timeInfo = document.createElement('p');
-        timeInfo.className = 'time-info';
-        
-        if (type === 'ongoing') {
-            timeInfo.textContent = 'Time Left: ...';
-            timeInfo.dataset.timeLeft = auction.timeLeft;
-            timeInfo.className += ' countdown';
-        } else if (type === 'upcoming') {
-            timeInfo.textContent = 'Starts In: ...';
-            timeInfo.dataset.startsIn = auction.startsIn;
-            timeInfo.className += ' countdown-start';
-        } else {
-            timeInfo.textContent = `Ended On: ${auction.endedAt}`;
-        }
-        
-        // Create action button
-        const actionLink = document.createElement('a');
-        actionLink.href = `#auction-${auction.id}`;
-        
-        if (type === 'ongoing') {
-            actionLink.textContent = 'View Auction';
-            actionLink.className = 'view-auction-btn';
-        } else if (type === 'upcoming') {
-            actionLink.textContent = 'Notify Me';
-            actionLink.className = 'notify-btn';
-        } else {
-            actionLink.textContent = 'View Results';
-            actionLink.className = 'view-results-btn';
-        }
-        
-        // Add place bid button for ongoing auctions
-        if (type === 'ongoing') {
-            const bidButton = document.createElement('button');
-            bidButton.textContent = 'Place Bid';
-            bidButton.className = 'place-bid-btn';
-            bidButton.dataset.auctionId = auction.id;
-            auctionDiv.appendChild(bidButton);
-        }
-        
-        // Assemble the auction item
-        auctionDiv.appendChild(img);
-        auctionDiv.appendChild(title);
-        auctionDiv.appendChild(priceInfo);
-        auctionDiv.appendChild(timeInfo);
-        auctionDiv.appendChild(actionLink);
-        
-        return auctionDiv;
-    }
-    
-    /**
-     * Update all countdown timers
-     */
-    function updateCountdowns() {
-        // Update ongoing auction countdowns
-        document.querySelectorAll('.countdown').forEach(element => {
-            let timeLeft = parseInt(element.dataset.timeLeft);
-            
-            if (timeLeft <= 0) {
-                element.textContent = 'Auction Ended';
-                element.parentElement.classList.add('ended');
-            } else {
-                timeLeft--;
-                element.dataset.timeLeft = timeLeft;
-                
-                const days = Math.floor(timeLeft / (24 * 60 * 60));
-                const hours = Math.floor((timeLeft % (24 * 60 * 60)) / (60 * 60));
-                const minutes = Math.floor((timeLeft % (60 * 60)) / 60);
-                const seconds = timeLeft % 60;
-                
-                element.textContent = `Time Left: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-            }
-        });
-        
-        // Update upcoming auction countdowns
-        document.querySelectorAll('.countdown-start').forEach(element => {
-            let startsIn = parseInt(element.dataset.startsIn);
-            
-            if (startsIn <= 0) {
-                element.textContent = 'Starting Now!';
-                element.parentElement.classList.add('starting');
-            } else {
-                startsIn--;
-                element.dataset.startsIn = startsIn;
-                
-                const days = Math.floor(startsIn / (24 * 60 * 60));
-                const hours = Math.floor((startsIn % (24 * 60 * 60)) / (60 * 60));
-                const minutes = Math.floor((startsIn % (60 * 60)) / 60);
-                const seconds = startsIn % 60;
-                
-                element.textContent = `Starts In: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-            }
-        });
-    }
-    
-    /**
-     * Handle bid placement
-     * @param {Event} event - The click event
-     */
-    function handleBidPlacement(event) {
-        const auctionId = parseInt(event.target.dataset.auctionId);
-        const auction = auctions.ongoing.find(a => a.id === auctionId);
-        
-        if (!auction) return;
-        
-        // In a real app, show a bid modal here
-        const bidAmount = prompt(`Current bid for ${auction.name} is $${auction.currentBid.toFixed(2)}. Enter your bid amount:`);
-        
-        if (bidAmount && !isNaN(bidAmount)) {
-            const newBid = parseFloat(bidAmount);
-            
-            if (newBid > auction.currentBid) {
-                auction.currentBid = newBid;
-                
-                // Update displayed bid
-                const priceInfo = event.target.parentElement.querySelector('p');
-                priceInfo.textContent = `Current Bid: $${newBid.toFixed(2)}`;
-                
-                alert(`Bid placed successfully! You are now the highest bidder for ${auction.name}.`);
-            } else {
-                alert('Your bid must be higher than the current bid.');
-            }
-        }
-    }
-    
-    /**
-     * Filter auctions based on search input
-     */
-    function filterAuctions() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const activeTab = document.querySelector('.auction-status-tabs button.active').textContent.toLowerCase();
-        
-        let filteredAuctions;
-        if (activeTab.includes('ongoing')) {
-            filteredAuctions = auctions.ongoing.filter(auction => 
-                auction.name.toLowerCase().includes(searchTerm));
-        } else if (activeTab.includes('upcoming')) {
-            filteredAuctions = auctions.upcoming.filter(auction => 
-                auction.name.toLowerCase().includes(searchTerm));
-        } else {
-            filteredAuctions = auctions.past.filter(auction => 
-                auction.name.toLowerCase().includes(searchTerm));
-        }
-        
-        const auctionListings = document.querySelector('.auction-listings');
-        auctionListings.innerHTML = '';
-        
-        filteredAuctions.forEach(auction => {
-            const auctionElement = createAuctionElement(auction, activeTab);
-            auctionListings.appendChild(auctionElement);
-        });
-    }
-});
-
-// Profile Page Tabs
-document.addEventListener('DOMContentLoaded', function() {
+    // Profile Page Elements
     const profileTabs = document.querySelectorAll('.profile-tab');
     const profileContents = document.querySelectorAll('.profile-content');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const darkModeStylesheet = document.getElementById('dark-mode-stylesheet');
+    const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const storedDarkMode = localStorage.getItem('darkMode');
+
+    const editProfilePicBtn = document.getElementById('edit-profile-pic-btn');
+    const uploadProfilePicInput = document.getElementById('upload-profile-pic');
+    const profilePic = document.getElementById('profile-pic');
+
+    const displayUsername = document.getElementById('display-username');
+    const overviewUsername = document.getElementById('overview-username');
+    const editUsernameBtn = document.getElementById('edit-username-btn');
+    const editUsernameInput = document.getElementById('edit-username-input');
+    const saveUsernameBtn = document.getElementById('save-username-btn');
+    const cancelUsernameBtn = document.getElementById('cancel-username-btn');
+
+    // Overview Section Elements
+    const overviewListingsCount = document.getElementById('overview-listings-count');
+    const overviewBidsCount = document.getElementById('overview-bids-count');
+    const overviewWatchlistCount = document.getElementById('overview-watchlist-count');
+
+    // My Listings Section Elements
+    const myListingsGrid = document.getElementById('my-listings-grid');
+    const addListingButton = document.getElementById('add-listing-button');
+    const editListingForm = document.getElementById('edit-listing-form');
+    const saveEditListingButton = document.getElementById('save-edit-listing-button');
+    const cancelEditListingButton = document.getElementById('cancel-edit-listing-button');
+    const editListingNameInput = document.getElementById('edit-listing-name');
+    const editListingDescriptionInput = document.getElementById('edit-listing-description');
+    const editListingPriceInput = document.getElementById('edit-listing-price');
+
+    // My Bids and Watchlist
+    const myBidsList = document.getElementById('my-bids-list');
+    const myWatchlistGrid = document.getElementById('my-watchlist-grid');
+
+    let editingListingId = null;  // Track which listing is being edited
+
+    // Data Storage (Use LocalStorage for simplicity - replace with server calls in real app)
+    let userListings = JSON.parse(localStorage.getItem('userListings')) || [
+        { id: 1, name: 'Charizard', description: 'Holo, 1st Edition', price: 250 },
+        { id: 2, name: 'Pikachu', description: 'Base Set, Mint', price: 100 },
+    ];
+    let userBids = JSON.parse(localStorage.getItem('userBids')) || [
+        { id: 101, auctionName: 'Rare Charizard Auction', bid: 150, leadingBid: 200, endsIn: '2 days' },
+    ];
+    let userWatchlist = JSON.parse(localStorage.getItem('userWatchlist')) || [
+        { id: 201, name: 'Blastoise', price: 75 },
+    ];
+    let currentUsername = localStorage.getItem('username') || 'User123';
+
+    // --- Helper Functions ---
+    function renderListings() {
+        myListingsGrid.innerHTML = '';
+        userListings.forEach(listing => {
+            const listingElement = document.createElement('div');
+            listingElement.classList.add('market-card-item');
+            listingElement.innerHTML = `
+                <img src="placeholder-card.png" alt="${listing.name}">
+                <h3>${listing.name}</h3>
+                <p>${listing.description}</p>
+                <p>Price: $${listing.price.toFixed(2)}</p>
+                <button class="edit-button" data-id="${listing.id}">Edit</button>
+                <button class="remove-button" data-id="${listing.id}">Remove</button>
+            `;
+            myListingsGrid.appendChild(listingElement);
+        });
+        overviewListingsCount.textContent = userListings.length;
+        localStorage.setItem('userListings', JSON.stringify(userListings));
+    }
+
+    function renderBids() {
+        myBidsList.innerHTML = '';
+        userBids.forEach(bid => {
+            const bidElement = document.createElement('div');
+            bidElement.classList.add('auction-bid-item');
+            bidElement.innerHTML = `
+                <img src="placeholder-auction.png" alt="${bid.auctionName}">
+                <div>
+                    <h3>${bid.auctionName}</h3>
+                    <p>Your Bid: $${bid.bid.toFixed(2)}</p>
+                    <p>Current Leading Bid: $${bid.leadingBid.toFixed(2)}</p>
+                    <p>Ends In: ${bid.endsIn}</p>
+                </div>
+                <button class="withdraw-bid-button" data-id="${bid.id}">Withdraw Bid</button>
+            `;
+            myBidsList.appendChild(bidElement);
+        });
+        overviewBidsCount.textContent = userBids.length;
+        localStorage.setItem('userBids', JSON.stringify(userBids));
+    }
+
+    function renderWatchlist() {
+        myWatchlistGrid.innerHTML = '';
+        userWatchlist.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('market-card-item');
+            itemElement.innerHTML = `
+                <img src="placeholder-card.png" alt="${item.name}">
+                <h3>${item.name}</h3>
+                <p>Current Price: $${item.price.toFixed(2)}</p>
+                <button class="remove-watchlist-button" data-id="${item.id}">Remove</button>
+            `;
+            myWatchlistGrid.appendChild(itemElement);
+        });
+        overviewWatchlistCount.textContent = userWatchlist.length;
+        localStorage.setItem('userWatchlist', JSON.stringify(userWatchlist));
+    }
+
+    // --- Event Listeners ---
+
+    // Initial Renders
+    renderListings();
+    renderBids();
+    renderWatchlist();
+    overviewUsername.textContent = currentUsername;
+
+    // Dark Mode
+      if (storedDarkMode === 'enabled' || (storedDarkMode === null && prefersDarkMode)) {
+        darkModeStylesheet.href = 'dark-mode.css';
+    }
 
     profileTabs.forEach(tab => {
         tab.addEventListener('click', function() {
             profileTabs.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
-
-            const tabId = this.dataset.tab;
             profileContents.forEach(content => content.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-        });
-    });
-});
-
-// Card Archaeology Tabs
-document.addEventListener('DOMContentLoaded', function() {
-    const archaeologyTabs = document.querySelectorAll('.archaeology-tab');
-    const archaeologyContents = document.querySelectorAll('.archaeology-content');
-
-    archaeologyTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            archaeologyTabs.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-
             const tabId = this.dataset.tab;
-            archaeologyContents.forEach(content => content.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-        });
-    });
-});
-
-// Support Page Functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const supportOptions = document.querySelectorAll('.support-option');
-    const contentSections = document.querySelectorAll('.support-content-area > div');
-    const faqListItems = document.querySelectorAll('#faq-section ul li');
-
-    supportOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            supportOptions.forEach(opt => opt.classList.remove('active'));
-            this.classList.add('active');
-
-            const sectionId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
-            contentSections.forEach(section => section.style.display = 'none';
-            document.getElementById(sectionId).style.display = 'block';
-        });
-    });
-
-    faqListItems.forEach(listItem => {
-        listItem.addEventListener('click', function() {
-            this.classList.toggle('active');
-            const answer = this.querySelector('.faq-answer');
-            const icon = this.querySelector('.faq-toggle-icon');
-
-            if (answer) {
-                answer.classList.toggle('active');
-            }
-            if (icon) {
-                icon.classList.toggle('active');
+            const selectedContent = document.getElementById(tabId);
+            if (selectedContent) {
+                selectedContent.classList.add('active');
             }
         });
     });
 
-    // Show FAQ section by default
-    showSupportContent('faq-section');
-});
+    darkModeToggle.addEventListener('click', function() {
+        if (darkModeStylesheet.href) {
+            darkModeStylesheet.href = '';
+            localStorage.setItem('darkMode', 'disabled');
+        } else {
+            darkModeStylesheet.href = 'dark-mode.css';
+            localStorage.setItem('darkMode', 'enabled');
+        }
+    });
 
-function showSupportContent(sectionId) {
-    const contentSections = document.querySelectorAll('.support-content-area > div');
-    contentSections.forEach(section => section.style.display = 'none';
-    document.getElementById(sectionId).style.display = 'block';
-}
+    // Profile Picture
+    editProfilePicBtn.addEventListener('click', () => {
+        uploadProfilePicInput.click();
+    });
+
+    uploadProfilePicInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                profilePic.src = e.target.result;
+                localStorage.setItem('profilePic', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+      const storedProfilePic = localStorage.getItem('profilePic');
+    if (storedProfilePic) {
+        profilePic.src = storedProfilePic;
+    }
+
+    // Username
+    editUsernameBtn.addEventListener('click', () => {
+        displayUsername.style.display = 'none';
+        editUsernameBtn.style.display = 'none';
+        editUsernameInput.style.display = 'inline-block';
+        saveUsernameBtn.style.display = 'inline-block';
+        cancelUsernameBtn.style.display = 'inline-block';
+    });
+
+    saveUsernameBtn.addEventListener('click', () => {
+        const newUsername = editUsernameInput.value.trim();
+        if (newUsername) {
+            currentUsername = newUsername;
+            displayUsername.textContent = currentUsername;
+             overviewUsername.textContent = currentUsername;
+            localStorage.setItem('username', currentUsername);
+            displayUsername.style.display = 'inline-block';
+            editUsernameBtn.style.display = 'inline-block';
+            editUsernameInput.style.display = 'none';
+            saveUsernameBtn.style.display = 'none';
+            cancelUsernameBtn.style.display = 'none';
+        } else {
+            alert('Username cannot be empty.');
+        }
+    });
+
+    cancelUsernameBtn.addEventListener('click', () => {
+        editUsernameInput.value = currentUsername;
+        displayUsername.style.display = 'inline-block';
+        editUsernameBtn.style.display = 'inline-block';
+        editUsernameInput.style.display = 'none';
+        saveUsernameBtn.style.display = 'none';
+        cancelUsernameBtn.style.display = 'none';
+    });
+
+    // My Listings
+    addListingButton.addEventListener('click', () => {
+        editingListingId = null; // Clear any previous editing state
+        editListingForm.style.display = 'block';
+        editListingNameInput.value = '';
+        editListingDescriptionInput.value = '';
+        editListingPriceInput.value = '';
+    });
+
+    saveEditListingButton.addEventListener('click', () => {
+        const name = editListingNameInput.value.trim();
+        const description = editListingDescriptionInput.value.trim();
+        const price = parseFloat(editListingPriceInput.value);
+
+        if (name && description && !isNaN(price) && price > 0) {
+            if (editingListingId) {
+                // Update existing listing
+                const index = userListings.findIndex(listing => listing.id === editingListingId);
+                if (index !== -1) {
+                    userListings[index] = { id: editingListingId, name, description, price };
+                }
+            } else {
+                // Add new listing
+                const newId = userListings.length > 0 ? Math.max(...userListings.map(l => l.id)) + 1 : 1;
+                userListings.push({ id: newId, name, description, price });
+            }
+            renderListings();
+            editListingForm.style.display = 'none';
+        } else {
+            alert('Please fill in all fields with valid values.');
+        }
+    });
+
+    cancelEditListingButton.addEventListener('click', () => {
+        editListingForm.style.display = 'none';
+    });
+
+    myListingsGrid.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList.contains('edit-button')) {
+            const id = parseInt(target.dataset.id);
+            editingListingId = id;
+            const listingToEdit = userListings.find(listing => listing.id === id);
+            if (listingToEdit) {
+                editListingNameInput.value = listingToEdit.name;
+                editListingDescriptionInput.value = listingToEdit.description;
+                editListingPriceInput.value = listingToEdit.price;
+                editListingForm.style.display = 'block';
+            }
+        } else if (target.classList.contains('remove-button')) {
+            const id = parseInt(target.dataset.id);
+            userListings = userListings.filter(listing => listing.id !== id);
+            renderListings();
+        }
+    });
+
+    // My Bids
+    myBidsList.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList.contains('withdraw-bid-button')) {
+            const id = parseInt(target.dataset.id);
+            userBids = userBids.filter(bid => bid.id !== id);
+            renderBids();
+        }
+    });
+
+    // Watchlist
+    myWatchlistGrid.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList.contains('remove-watchlist-button')) {
+            const id = parseInt(target.dataset.id);
+            userWatchlist = userWatchlist.filter(item => item.id !== id);
+            renderWatchlist();
+        }
+    });
+});
