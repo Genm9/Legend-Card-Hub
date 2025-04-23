@@ -114,34 +114,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Mock Data for Listings
     const mockListings = [
-        { id: 1, name: "Ancient Dragon", description: "Rare foil card from the first edition", price: 125.00, image: "placeholder-card1.jpg" },
-        { id: 2, name: "Forest Guardian", description: "Limited edition promo card", price: 75.50, image: "placeholder-card2.jpg" },
-        { id: 3, name: "Mystic Sorcerer", description: "Mint condition, PSA 10", price: 250.00, image: "placeholder-card3.jpg" },
-        { id: 4, name: "Ocean's Fury", description: "Holographic variant, slight edge wear", price: 80.00, image: "placeholder-card4.jpg" },
-        { id: 5, name: "Dark Knight", description: "Special anniversary edition", price: 150.00, image: "placeholder-card5.jpg" }
+        { id: 1, name: "Gyarados Shining (1st edition)", description: "#65", price: 99.00, image: "placeholder-Gyarados Shining.jpg" },
+        { id: 2, name: "Venusaur Holo (1st edition)", description: "#15", price: 75.00, image: "placeholder-Venusaur Holo.jpg" },
+        { id: 3, name: "Mega M Mewtwo EX", description: "#64", price: 35.00, image: "placeholder-Mega M Mewtwo EX.jpg" },
+        { id: 4, name: "Charizard VMAX", description: "#20", price: 30.00, image: "placeholder-Charizard VMAX.jpg" },
+        { id: 5, name: "Snorlax Jungle Set (1st edition)", description: "#11", price: 45.00, image: "placeholder-Snorlax Jungle Set.jpg" }
     ];
     
     // Mock Data for Bids
     const mockBids = [
-        { id: 101, name: "Gold Phoenix", currentBid: 235.00, yourBid: 220.00, endTime: "2025-05-01T18:00:00", image: "placeholder-auction1.jpg" },
-        { id: 102, name: "Crystal Mage", currentBid: 180.00, yourBid: 180.00, endTime: "2025-04-28T12:30:00", image: "placeholder-auction2.jpg" },
-        { id: 103, name: "Thunder Titan", currentBid: 310.00, yourBid: 300.00, endTime: "2025-05-05T23:45:00", image: "placeholder-auction3.jpg" }
+        { id: 101, name: "Rayquaza Gold Star", currentBid: 5500.00, yourBid: 5800.00, endTime: "2025-05-01T18:00:00", image: "placeholder-Rayquaza Gold Star.jpg" },
+        { id: 102, name: "Blastoise 1st Edition", currentBid: 1800.00, yourBid: 1000.00, endTime: "2025-04-28T12:30:00", image: "placeholder-Blastoise Base Set.jpg" },
+        { id: 103, name: "Pikachu Illustrator", currentBid: 21000.00, yourBid: 25000.00, endTime: "2025-05-05T23:45:00", image: "placeholder-Pikachu Illustrator.jpg" }
     ];
     
     // Mock Data for Watchlist
     const mockWatchlist = [
-        { id: 201, name: "Silver Dragon", price: 175.00, image: "placeholder-watch1.jpg" },
-        { id: 202, name: "Eternal Flame", price: 95.00, image: "placeholder-watch2.jpg" },
-        { id: 203, name: "Shadow Assassin", price: 140.00, image: "placeholder-watch3.jpg" },
-        { id: 204, name: "Holy Paladin", price: 110.00, image: "placeholder-watch4.jpg" },
-        { id: 205, name: "Mountain Giant", price: 85.00, image: "placeholder-watch5.jpg" },
-        { id: 206, name: "Desert Wanderer", price: 60.00, image: "placeholder-watch6.jpg" },
-        { id: 207, name: "Ice Queen", price: 200.00, image: "placeholder-watch7.jpg" },
-        { id: 208, name: "Woodland Elf", price: 70.00, image: "placeholder-watch8.jpg" },
-        { id: 209, name: "Storm Caller", price: 120.00, image: "placeholder-watch9.jpg" },
-        { id: 210, name: "Lava Beast", price: 95.00, image: "placeholder-watch10.jpg" },
-        { id: 211, name: "Night Stalker", price: 80.00, image: "placeholder-watch11.jpg" },
-        { id: 212, name: "Divine Angel", price: 150.00, image: "placeholder-watch12.jpg" }
+        { id: 201, name: "Ancient Mew Promo", price: 900.00, image: "placeholder-Ancient Mew Promo.jpg" },
+        { id: 202, name: "Espeon V Alt Art", price: 210.00, image: "placeholder-Espeon V Alt Art.jpg" },
+        { id: 203, name: "Arceus VSTAR", price: 60.00, image: "placeholder-Arceus VSTAR.jpg" },
+        { id: 204, name: "Umbreon VMAX Alt Art", price: 1400.00, image: "placeholder-Umbreon VMAX Alt Art.jpg" },
+        { id: 205, name: "Lugia PSA 10", price: 1200.00, image: "placeholder-Lugia.jpg" },
     ];
 
     // Load My Listings
