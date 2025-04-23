@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Legend Card Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* About Us Page Specific Styles */
+        .about-section {
+            background-color: #f5f7fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .about-header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .mission-section {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .mission-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .team-section {
+            background-color: #f5f7fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .member-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .member-info {
+            padding: 1.5rem;
+        }
+
+        .member-name {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.3rem;
+        }
+
+        .member-role {
+            color: #4a90e2;
+            margin: 0 0 1rem 0;
+            font-weight: 500;
+        }
+
+        .member-bio {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .history-section {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem 0;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #4a90e2;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border: 4px solid #4a90e2;
+            border-radius: 50%;
+            top: 15px;
+            right: -10px;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 1.5rem;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-year {
+            font-weight: bold;
+            color: #4a90e2;
+            margin-top: 0;
+        }
+
+        .contact-section {
+            background-color: #f5f7fa;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: #4a90e2;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+
+        .contact-button:hover {
+            background-color: #3a80d2;
+        }
+
+        /* Dark mode specifics */
+        body.dark-mode .about-section,
+        body.dark-mode .team-section,
+        body.dark-mode .contact-section {
+            background-color: #2a2a2a;
+        }
+
+        body.dark-mode .mission-section,
+        body.dark-mode .history-section {
+            background-color: #222;
+        }
+
+        body.dark-mode .team-member {
+            background-color: #333;
+        }
+
+        body.dark-mode .timeline-content {
+            background-color: #333;
+        }
+
+        body.dark-mode .about-header h1,
+        body.dark-mode h2,
+        body.dark-mode h3 {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .about-header p,
+        body.dark-mode p,
+        body.dark-mode .member-bio {
+            color: #bbb;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+            
+            .timeline-item:nth-child(even)::after {
+                left: 21px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="market.html">Card Market</a></li>
+                <li><a href="auction-ongoing.html">Auction Hall</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="archaeology.html">Card Archaeology</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="about-section">
+            <div class="about-header">
+                <h1>About Legend Card Hub</h1>
+                <p>We unearth not just cards, but forgotten legends.</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Our Story</h2>
+                    <p>Legend Card Hub was born from a passion for collecting and trading cards that spans decades. What started as a small community of dedicated collectors has grown into one of the most trusted marketplaces for trading cards in the world.</p>
+                    <p>Our platform brings together collectors, players, and investors who share a love for rare and valuable cards across multiple genres - from sports cards to fantasy games, anime collectibles to historic memorabilia.</p>
+                    <p>We understand the thrill of finding that perfect card to complete your collection, or discovering a rare gem that others have overlooked. That's why we've created a secure, transparent, and user-friendly platform where enthusiasts can connect, trade, and expand their collections with confidence.</p>
+                </div>
+                <div class="about-image">
+                    <img src="placeholder-pokemon card.jpg" alt="Legend Card Hub Marketplace">
+                </div>
+            </div>
+        </section>
+
+        <section class="mission-section">
+            <div class="mission-content">
+                <h2>Our Mission</h2>
+                <p>At Legend Card Hub, we're dedicated to preserving the heritage and future of card collecting by creating the most trustworthy marketplace for enthusiasts worldwide. We strive to:</p>
+                <ul>
+                    <li>Provide a secure platform for buying, selling, and trading collectible cards</li>
+                    <li>Foster a vibrant community where knowledge and passion for cards are shared</li>
+                    <li>Ensure transparency and fairness in every transaction</li>
+                    <li>Innovate with technology that enhances the collecting experience</li>
+                    <li>Preserve the history and cultural significance of trading cards for future generations</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="team-section">
+            <div class="team-header">
+                <h2>Meet Our Team</h2>
+                <p>The passionate collectors and industry experts behind Legend Card Hub</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-info">
+                        <h3 class="member-name">Lau Li Ken</h3>
+                        <p class="member-role">Founder, CEO, Technology Director</p>
+                        <p class="member-bio">A lifelong collector with over 20 years of experience in the trading card industry. Alex's vision drives our platform's continued innovation and growth.</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-info">
+                        <h3 class="member-name">Loh Siew Khong</h3>
+                        <p class="member-role">Vice President</p>
+                        <p class="member-bio">With expertise in card grading and authentication, Morgan ensures that every card on our platform is exactly as described.</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-info">
+                        <h3 class="member-name">Eugene Ling Hong Yu</h3>
+                        <p class="member-role">General Manager</p>
+                        <p class="member-bio">Taylor builds and nurtures our collector community, organizing events and ensuring that Legend Card Hub remains a welcoming place for all enthusiasts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <h2>Connect With Us</h2>
+            <p>Have questions or suggestions? We'd love to hear from you! Our team is always available to assist collectors and enthusiasts.</p>
+            <div class="contact-buttons">
+                <a href="support.html" class="contact-button">Contact Support</a>
+                <a href="https://discord.gg/EwYqhcFq" class="contact-button">Join Our Community</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Legend Card Hub. All rights reserved.</p>
+        <p><a href="aboutus.html">About Us</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Dark mode toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', function() {
+                    document.body.classList.toggle('dark-mode');
+                });
+            }
+        });
+    </script>
+  <script src="script.js"></script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/67e64434c6d6c4190baef1d4/1indnkrg6';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>

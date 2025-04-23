@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Archaeology - Legend Card Hub</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="archaeology.css">
 </head>
 <body>
     <header>
@@ -16,7 +16,7 @@
                 <li><a href="profile.html">Profile</a></li>
                 <li><a href="support.html">Support</a></li>
                 <li><a href="archaeology.html">Card Archaeology</a></li>
-                <li><a href="community.html">Community</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
             </ul>
         </nav>
     </header>
@@ -30,44 +30,56 @@
         <section class="archaeology-navigation">
             <button class="archaeology-tab active" data-tab="design-archives">Design Sketch Archives</button>
             <button class="archaeology-tab" data-tab="designer-interviews">Designer Oral Histories</button>
-            <button class="archaeology-tab" data-tab="card-timeline">Card Timeline Navigation</button>
         </section>
 
         <section id="design-archives" class="archaeology-content active">
             <h2>Design Sketch Archives</h2>
             <p>Explore rare and early design sketches of your favorite cards.</p>
-            <div class="archive-item">
-                <img src="placeholder-sketch1.jpg" alt="Sketch 1">
-                <h3>Early Charizard Design</h3>
-                <p>A glimpse into the initial concepts for the iconic Charizard.</p>
+            
+            <div class="archive-grid">
+                <div class="archive-item">
+                    <img src="placeholder-Charizard-Base.jpg" alt="Sketch 1">
+                    <h3>Early Charizard Design</h3>
+                    <p>A glimpse into the initial concepts for the iconic Charizard.</p>
+                    <a href="https://theglitterandgold.com.au/the-symbolism-and-hidden-meaning-of-charizard-pokemons-fan-favourite-fire-breathing-dragon/" class="view-details">View Details</a>
+                </div>
+                
+                <div class="archive-item">
+                    <img src="placeholder-Pikachu.jpg" alt="Sketch 2">
+                    <h3>Pikachu Evolution</h3>
+                    <p>The design evolution of Pokémon's most recognizable character.</p>
+                    <a href="https://www.pokemon.com/us/pokedex/pikachu" class="view-details">View Details</a>
+                </div>
             </div>
-            </section>
+        </section>
 
         <section id="designer-interviews" class="archaeology-content">
             <h2>Designer Oral Histories</h2>
             <p>Hear from the creators behind the cards, sharing their insights and stories.</p>
-            <div class="interview-item">
-                <img src="placeholder-designer1.jpg" alt="Designer 1">
-                <h3>Interview with Ken Sugimori</h3>
-                <p>Lead designer of Pokemon discusses the creation process.</p>
-                <a href="#">Watch Interview</a>
+            
+            <div class="interview-grid">
+                <div class="interview-item">
+                    <img src="placeholder-Ken Sugimori.jpg" alt="Designer 1">
+                    <h3>Interview with Ken Sugimori</h3>
+                    <p>Lead designer of Pokemon discusses the creation process.</p>
+                    <a href="https://www.youtube.com/watch?v=SVFnYLTsxdc" class="watch-btn">Watch Interview</a>
+                </div>
+                
+                <div class="interview-item">
+                    <img src="placeholder-mitsuhiro-arita.jpg" alt="Designer 2">
+                    <h3>Mitsuhiro Arita's Art</h3>
+                    <p>The illustrator behind many iconic Pokémon cards discusses his techniques.</p>
+                    <a href="https://www.youtube.com/watch?v=w1Oha6HRb7c" class="watch-btn">Watch Interview</a>
+                </div>
             </div>
-            </section>
-
-        <section id="card-timeline" class="archaeology-content">
-            <h2>Card Timeline Navigation</h2>
-            <p>Explore the history of cards chronologically.</p>
-            <p>Select a year:</p>
-            <select>
-                <option value="1996">1996</option>
-                <option value="1997">1997</option>
-                </select>
+           
         </section>
+
     </main>
 
     <footer>
         <p>&copy; 2025 Legend Card Hub. All rights reserved.</p>
-        <p>Contact Us | Social Media Links</p>
+        <p><a href="aboutus.html">About Us</a></p>
     </footer>
 
     <script>
@@ -85,20 +97,42 @@
                     document.getElementById(tabId).classList.add('active');
                 });
             });
+            
+            // Timeline navigation functionality
+            const yearSelect = document.getElementById('year-select');
+            const prevYearBtn = document.getElementById('prev-year');
+            const nextYearBtn = document.getElementById('next-year');
+            
+            prevYearBtn.addEventListener('click', function() {
+                const currentIndex = yearSelect.selectedIndex;
+                if (currentIndex > 0) {
+                    yearSelect.selectedIndex = currentIndex - 1;
+                    // Here you would typically trigger an event to update the timeline display
+                }
+            });
+            
+            nextYearBtn.addEventListener('click', function() {
+                const currentIndex = yearSelect.selectedIndex;
+                if (currentIndex < yearSelect.options.length - 1) {
+                    yearSelect.selectedIndex = currentIndex + 1;
+                    // Here you would typically trigger an event to update the timeline display
+                }
+            });
         });
     </script>
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/67e64434c6d6c4190baef1d4/1indnkrg6';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+    <script src="script.js"></script>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/67e64434c6d6c4190baef1d4/1indnkrg6';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 </html>

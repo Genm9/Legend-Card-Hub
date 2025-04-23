@@ -3,8 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Profile - Legend Card Hub</title>
+    <title>Profile - Legend Card Hub</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="dark-mode.css" id="dark-mode-stylesheet">
+    <style>
+        /* Additional inline styles to ensure proper positioning */
+        .username-edit-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px; /* Space between username and edit icon */
+        }
+        
+        #edit-username-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 5px;
+        }
+        
+        #edit-username-btn img {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -16,67 +42,116 @@
                 <li><a href="profile.html">Profile</a></li>
                 <li><a href="support.html">Support</a></li>
                 <li><a href="archaeology.html">Card Archaeology</a></li>
-                <li><a href="community.html">Community</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
         <section class="profile-header">
-            <h1>Your Profile</h1>
+            <h1>Profile</h1>
             <div class="profile-info">
-                <img src="placeholder-profile.png" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%;">
-                <h2>User Name Here</h2>
-                <p>Member since: [Date]</p>
-                <p>Email: [Email Address]</p>
+                <div class="profile-picture-container">
+                    <img src="placeholder-default picture.jpg" alt="Profile Picture" class="profile-picture" id="profile-pic">
+                    <button id="edit-profile-pic-btn" class="edit-button small">
+                        <img src="placeholder-edit icon.jpg" width="30" height="30" alt="Edit profile picture">
+                    </button>
+                    <input type="file" id="upload-profile-pic" accept="image/*" style="display: none;">
+                </div>
+                <div class="username-container">
+                    <div class="username-edit-wrapper">
+                        <span class="username" id="display-username">User123</span>
+            	        <button id="edit-username-btn" class="edit-button.small">Edit Name</button>          
+                    </div>
+                    <input type="text" id="edit-username-input" style="display: none;">     
+                    <button id="save-username-btn" class="save-settings-button small" style="display: none;">Save</button>
+                    <button id="cancel-username-btn" class="remove-button small" style="display: none;">Cancel</button>
+                </div>
+                <div class="member-since">Member Since: April 2025</div>
             </div>
         </section>
 
         <section class="profile-navigation">
-            <button class="profile-tab active" data-tab="my-listings">My Listings</button>
-            <button class="profile-tab" data-tab="my-orders">My Orders</button>
-            <button class="profile-tab" data-tab="reputation">Reputation Score</button>
+            <button class="profile-tab active" data-tab="overview">Overview</button>
+            <button class="profile-tab" data-tab="my-listings">My Listings</button>
+            <button class="profile-tab" data-tab="my-bids">My Bids</button>
+            <button class="profile-tab" data-tab="watchlist">Watchlist</button>
+            <button class="profile-tab" data-tab="settings">Settings</button>
+            <button id="dark-mode-toggle">Dark Mode</button>
         </section>
 
-        <section id="my-listings" class="profile-content active">
-            <h2>My Listings</h2>
-            <p>Here you can manage the cards you are currently selling.</p>
-            </section>
+        <section class="profile-content-area">
+            <div id="overview" class="profile-content active">
+                <h2>Overview</h2>
+                <p>Welcome to your profile page, <span id="overview-username">User123</span>!</p>
+                <p>Here you can manage your account, view your listings, track your bids, and customize your experience on Legend Card Hub.</p>
+                <h3>Your Activity Summary</h3>
+                <ul>
+                    <li>Currently listing <span class="highlight" id="overview-listings-count">5</span> cards in the market.</li>
+                    <li>Actively bidding on <span class="highlight" id="overview-bids-count">3</span> auction items.</li>
+                    <li><span class="highlight" id="overview-watchlist-count">9</span> cards in your watchlist.</li>
+                </ul>
+            </div>
 
-        <section id="my-orders" class="profile-content">
-            <h2>My Orders</h2>
-            <p>View your past and current orders.</p>
-            </section>
+            <div id="my-listings" class="profile-content">
+                <h2>My Listings</h2>
+                <p>Here are the cards you are currently selling in the market:</p>
+                <div class="my-listings-grid" id="my-listings-grid">
+                </div>
+                <button class="add-listing-button" id="add-listing-button">+ Add New Listing</button>
+                <div id="edit-listing-form" style="display: none;">
+                    <h3>Edit Listing</h3>
+                    <input type="text" id="edit-listing-name" placeholder="Card Name">
+                    <textarea id="edit-listing-description" placeholder="Description"></textarea>
+                    <input type="number" id="edit-listing-price" placeholder="Price">
+                    <button id="save-edit-listing-button" class="save-settings-button">Save</button>
+                    <button id="cancel-edit-listing-button" class="remove-button">Cancel</button>
+                </div>
+            </div>
 
-        <section id="reputation" class="profile-content">
-            <h2>Reputation Score</h2>
-            <p>Your current reputation score: [Score]</p>
-            <p>This score is based on your transaction history and feedback from other users.</p>
-            </section>
+            <div id="my-bids" class="profile-content">
+                <h2>My Bids</h2>
+                <p>These are the auction items you are currently bidding on:</p>
+                <div class="my-bids-list" id="my-bids-list">
+                </div>
+            </div>
+
+            <div id="watchlist" class="profile-content">
+                <h2>Watchlist</h2>
+                <p>Cards you are currently watching:</p>
+                <div class="watchlist-grid" id="my-watchlist-grid">
+                </div>
+            </div>
+
+            <div id="settings" class="profile-content">
+                <h2>Settings</h2>
+                <form class="profile-settings-form">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" value="user123@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" value="********">
+                        <button class="change-password-button">Change Password</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="notification-preferences">Notification Preferences:</label>
+                        <textarea id="notification-preferences">Receive email notifications for bids on my listings.</textarea>
+                    </div>
+                    <button type="submit" class="save-settings-button">Save Changes</button>
+                </form>
+            </div>
+        </section>
     </main>
 
     <footer>
         <p>&copy; 2025 Legend Card Hub. All rights reserved.</p>
-        <p>Contact Us | Social Media Links</p>
+        <p><a href="aboutus.html">About Us</a></p>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const profileTabs = document.querySelectorAll('.profile-tab');
-            const profileContents = document.querySelectorAll('.profile-content');
-
-            profileTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    profileTabs.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const tabId = this.dataset.tab;
-                    profileContents.forEach(content => content.classList.remove('active'));
-                    document.getElementById(tabId).classList.add('active');
-                });
-            });
-        });
-<script src="script.js"></script>
+    <script src="profile.js"></script>
+  <script src="script.js"></script>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
