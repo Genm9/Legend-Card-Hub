@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="bid-actions">
                     <button class="increase-bid-button">Increase Bid</button>
-                    <button class="view-auction-button">View Auction</button>
+                    <a href="auction-ongoing.html"</a> <button class="view-auction-button">View Auction</button>
                 </div>
             `;
             
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h3>${item.name}</h3>
                 <p class="card-price">$${item.price.toFixed(2)}</p>
                 <div class="watchlist-actions">
-                    <button class="view-card-button">View</button>
+                    <a href="market.html"</a> <button class="view-card-button">View</button>
                     <button class="remove-watch-button">Remove</button>
                 </div>
             `;
