@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Market - Legend Card Hub</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login-styles.css">
 </head>
 <body>
     <header>
@@ -17,6 +18,11 @@
                 <li><a href="support.html">Support</a></li>
                 <li><a href="archaeology.html">Card Archaeology</a></li>
                 <li><a href="aboutus.html">About Us</a></li>
+                <li class="auth-buttons">
+                    <span id="user-display"></span>
+                    <button id="login-btn">Login</button>
+                    <button id="logout-btn">Logout</button>
+                </li>
             </ul>
         </nav>
     </header>
@@ -69,6 +75,7 @@
         <p><a href="aboutus.html">About Us</a></p>
     </footer>
     <script src="market.js" defer></script>
+    <script src="login-component.js"></script>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();

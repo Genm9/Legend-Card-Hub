@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Legend Card Hub</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login-styles.css">
     <style>
         /* About Us Page Specific Styles */
         .about-section {
@@ -304,6 +305,11 @@
                 <li><a href="support.html">Support</a></li>
                 <li><a href="archaeology.html">Card Archaeology</a></li>
                 <li><a href="aboutus.html">About Us</a></li>
+                <li class="auth-buttons">
+                    <span id="user-display"></span>
+                    <button id="login-btn">Login</button>
+                    <button id="logout-btn">Logout</button>
+                </li>
             </ul>
         </nav>
     </header>
@@ -402,6 +408,7 @@
         });
     </script>
   <script src="script.js"></script>
+  <script src="login-component.js"></script>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();

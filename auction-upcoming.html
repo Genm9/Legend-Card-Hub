@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upcoming Auctions - Legend Card Hub</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login-styles.css">
 </head>
 <body>
     <header>
@@ -17,6 +18,11 @@
                 <li><a href="support.html">Support</a></li>
                 <li><a href="archaeology.html">Card Archaeology</a></li>
                 <li><a href="aboutus.html">About Us</a></li>
+                <li class="auth-buttons">
+                    <span id="user-display"></span>
+                    <button id="login-btn">Login</button>
+                    <button id="logout-btn">Logout</button>
+                </li>
             </ul>
         </nav>
     </header>
@@ -41,14 +47,14 @@
                 <img src="placeholder-Charizard VMAX.jpg" alt="Charizard VMAX">
                 <h3>Charizard VMAX</h3>
                 <p>Starting Bid: $250.00</p>
-                <p class="time-info countdown-start" data-starts-in="172800">Starts In: Loading...</p>
+                <p class="time-info countdown-start" data-starts-in="10">Starts In: Loading...</p>
                 <a href="#auction-4" class="notify-btn">Notify Me</a>
             </div>
             <div class="auction-item" data-id="5">
                 <img src="placeholder-Lugia.jpg" alt="Lugia PSA 10">
                 <h3>Lugia PSA 10</h3>
                 <p>Starting Bid: $1200.00</p>
-                <p class="time-info countdown-start" data-starts-in="432000">Starts In: Loading...</p>
+                <p class="time-info countdown-start" data-starts-in="20">Starts In: Loading...</p>
                 <a href="#auction-5" class="notify-btn">Notify Me</a>
             </div>
         </section>
@@ -60,6 +66,7 @@
     </footer>
     
     <script src="auction-upcoming.js"></script>
+    <script src="login-component.js"></script>
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
