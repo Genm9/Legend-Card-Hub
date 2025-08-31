@@ -39,7 +39,10 @@
         </section>
 
         <section id="design-archives" class="archaeology-content active">
-            <h2>Design Sketch Archives</h2>
+            <div class="section-header">
+                <h2>Design Sketch Archives</h2>
+                <button class="add-btn" onclick="openAddModal('archive')">+ Add Archive</button>
+            </div>
             <p>Explore rare and early design sketches of your favorite cards.</p>
             
             <div class="archive-grid">
@@ -60,7 +63,10 @@
         </section>
 
         <section id="designer-interviews" class="archaeology-content">
-            <h2>Designer Oral Histories</h2>
+            <div class="section-header">
+                <h2>Designer Oral Histories</h2>
+                <button class="add-btn" onclick="openAddModal('interview')">+ Add Interview</button>
+            </div>
             <p>Hear from the creators behind the cards, sharing their insights and stories.</p>
             
             <div class="interview-grid">
@@ -78,56 +84,85 @@
                     <a href="https://www.youtube.com/watch?v=w1Oha6HRb7c" class="watch-btn">Watch Interview</a>
                 </div>
             </div>
-           
         </section>
-
     </main>
+
+    <!-- Add Archive Modal -->
+    <div id="add-archive-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('add-archive-modal')">&times;</span>
+            <h3>Add New Design Archive</h3>
+            <form id="archive-form">
+                <div class="form-group">
+                    <label for="archive-title">Title:</label>
+                    <input type="text" id="archive-title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="archive-description">Description:</label>
+                    <textarea id="archive-description" name="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="archive-image">Image:</label>
+                    <input type="file" id="archive-image" name="image" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label for="archive-link">External Link (optional):</label>
+                    <input type="url" id="archive-link" name="link">
+                </div>
+                <button type="submit" class="submit-btn">Add Archive</button>
+                <button type="button" class="cancel-btn" onclick="closeModal('add-archive-modal')">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Interview Modal -->
+    <div id="add-interview-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('add-interview-modal')">&times;</span>
+            <h3>Add New Designer Interview</h3>
+            <form id="interview-form">
+                <div class="form-group">
+                    <label for="interview-title">Interview Title:</label>
+                    <input type="text" id="interview-title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="interview-designer">Designer Name:</label>
+                    <input type="text" id="interview-designer" name="designer" required>
+                </div>
+                <div class="form-group">
+                    <label for="interview-description">Description:</label>
+                    <textarea id="interview-description" name="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="interview-image">Designer Photo:</label>
+                    <input type="file" id="interview-image" name="image" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label for="interview-link">Interview Link:</label>
+                    <input type="url" id="interview-link" name="link" required>
+                </div>
+                <div class="form-group">
+                    <label for="interview-type">Interview Type:</label>
+                    <select id="interview-type" name="type">
+                        <option value="video">Video Interview</option>
+                        <option value="audio">Audio Interview</option>
+                        <option value="text">Text Interview</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Add Interview</button>
+                <button type="button" class="cancel-btn" onclick="closeModal('add-interview-modal')">Cancel</button>
+            </form>
+        </div>
+    </div>
 
     <footer>
         <p>&copy; 2025 Legend Card Hub. All rights reserved.</p>
         <p><a href="aboutus.html">About Us</a></p>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const archaeologyTabs = document.querySelectorAll('.archaeology-tab');
-            const archaeologyContents = document.querySelectorAll('.archaeology-content');
-
-            archaeologyTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    archaeologyTabs.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const tabId = this.dataset.tab;
-                    archaeologyContents.forEach(content => content.classList.remove('active'));
-                    document.getElementById(tabId).classList.add('active');
-                });
-            });
-            
-            // Timeline navigation functionality
-            const yearSelect = document.getElementById('year-select');
-            const prevYearBtn = document.getElementById('prev-year');
-            const nextYearBtn = document.getElementById('next-year');
-            
-            prevYearBtn.addEventListener('click', function() {
-                const currentIndex = yearSelect.selectedIndex;
-                if (currentIndex > 0) {
-                    yearSelect.selectedIndex = currentIndex - 1;
-                    // Here you would typically trigger an event to update the timeline display
-                }
-            });
-            
-            nextYearBtn.addEventListener('click', function() {
-                const currentIndex = yearSelect.selectedIndex;
-                if (currentIndex < yearSelect.options.length - 1) {
-                    yearSelect.selectedIndex = currentIndex + 1;
-                    // Here you would typically trigger an event to update the timeline display
-                }
-            });
-        });
-    </script>
     <script src="script.js"></script>
     <script src="login-component.js"></script>
+    <script src="archaeology.js"></script>
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
