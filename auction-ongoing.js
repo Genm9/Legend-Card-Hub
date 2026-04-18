@@ -64,28 +64,47 @@ document.addEventListener('DOMContentLoaded', function() {
      * @param {Event} event - The click event
      */
     function handleBidPlacement(event) {
+        const auctionItem = event.target.closest('.auction-item');
         const auctionId = parseInt(event.target.dataset.auctionId);
         const auction = ongoingAuctions.find(a => a.id === auctionId);
         
         if (!auction) return;
         
-        // In a real app, show a bid modal here
-        const bidAmount = prompt(`Current bid for ${auction.name} is $${auction.currentBid.toFixed(2)}. Enter your bid amount:`);
+        const bidInput = auctionItem.querySelector('.bid-amount-input');
+        const bidAmount = bidInput.value;
         
         if (bidAmount && !isNaN(bidAmount)) {
             const newBid = parseFloat(bidAmount);
             
             if (newBid > auction.currentBid) {
+                // Check if user is logged in before allowing bid
+                const userData = localStorage.getItem('legendCardHub_user');
+                if (!userData) {
+                    alert('👤 Please log in to place a bid!');
+                    event.stopImmediatePropagation(); // Prevent payment modal
+                    const loginBtn = document.getElementById('login-btn');
+                    if (loginBtn) loginBtn.click();
+                    return;
+                }
+
                 auction.currentBid = newBid;
                 
-                // Update displayed bid
-                const priceInfo = event.target.parentElement.querySelector('p');
+                // Update displayed bid so payment modal can read the correct amount
+                const priceInfo = auctionItem.querySelector('p:nth-of-type(1)');
                 priceInfo.textContent = `Current Bid: $${newBid.toFixed(2)}`;
                 
-                alert(`Bid placed successfully! You are now the highest bidder for ${auction.name}.`);
+                // Clear input
+                bidInput.value = '';
+                
+                // We don't alert here because the payment modal will handle the "success" flow
+                // Or we can let it proceed to payment-component.js
             } else {
-                alert('Your bid must be higher than the current bid.');
+                alert(`⚠️ Your bid must be higher than the current bid ($${auction.currentBid.toFixed(2)}).`);
+                event.stopImmediatePropagation(); // Prevent payment modal
             }
+        } else {
+            alert('❌ Please enter a valid numeric bid amount.');
+            event.stopImmediatePropagation(); // Prevent payment modal
         }
     }
     

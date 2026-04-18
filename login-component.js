@@ -52,7 +52,7 @@ class LoginComponent {
             <div class="login-modal">
                 <div class="login-close-btn">&times;</div>
                 <div class="pokemon-header">
-                    <div class="pokemon-logo">Legend Card Hub</div>
+                    <br><div class="pokemon-logo">Legend Card Hub</div>
                 </div>
                 
                 <div class="toggle-container">
@@ -63,9 +63,10 @@ class LoginComponent {
                 
                 <div id="login-form-container">
                     <h2 class="form-title">Welcome Back, Trainer!</h2>
+                    <div id="login-error" class="error-message"></div>
                     <form id="login-form">
                         <div class="form-group">
-                            <input type="text" id="login-username" class="form-input" placeholder="Username" required>
+                            <input type="text" id="login-username" class="form-input" placeholder="Username or Email" required>
                         </div>
                         <div class="form-group password-container">
                             <input type="password" id="login-password" class="form-input" placeholder="Password" required>
@@ -80,6 +81,7 @@ class LoginComponent {
                 
                 <div id="signup-form-container" style="display: none;">
                     <h2 class="form-title">Join the Adventure!</h2>
+                    <div id="signup-error" class="error-message"></div>
                     <form id="signup-form">
                         <div class="form-group">
                             <input type="text" id="signup-username" class="form-input" placeholder="Choose Username" required>
@@ -210,35 +212,73 @@ class LoginComponent {
     }
 
     handleLogin() {
-        const username = document.getElementById('login-username').value;
+        const loginInput = document.getElementById('login-username').value;
         const password = document.getElementById('login-password').value;
+        const errorDisplay = document.getElementById('login-error');
         
-        // Demo login validation (replace with actual authentication)
-        if (username && password) {
-            // Simulate successful login
-            this.isLoggedIn = true;
-            this.currentUser = {
-                username: username,
-                email: username + '@example.com', // Demo email
-                joinDate: new Date().toISOString()
-            };
-            
-            // Save to localStorage
-            localStorage.setItem('legendCardHub_user', JSON.stringify(this.currentUser));
-            
-            // Update UI
-            this.updateUI();
-            
-            // Close modal
-            document.getElementById('login-modal-container').style.display = 'none';
-            
-            // Show success message
-            this.createSparkles();
-            setTimeout(() => {
-                alert(`🌟 Welcome back, ${username}! Your adventure continues!`);
-            }, 500);
+        // Hide previous error
+        errorDisplay.style.display = 'none';
+        
+        if (!loginInput || !password) {
+            this.showError('login', 'Please enter both username/email and password.');
+            return;
+        }
+
+        // Email format validation (if input looks like an email)
+        if (loginInput.includes('@')) {
+            if (!this.validateEmail(loginInput)) {
+                this.showError('login', '⚠️ Incorrect email format! Check your @ and dots.');
+                return;
+            }
+        }
+
+        // Check against mock database (localStorage)
+        const storedUsers = JSON.parse(localStorage.getItem('legendCardHub_all_users') || '[]');
+        const user = storedUsers.find(u => u.username === loginInput || u.email === loginInput);
+
+        if (user) {
+            if (user.password === password) {
+                // Successful login
+                this.isLoggedIn = true;
+                this.currentUser = {
+                    username: user.username,
+                    email: user.email,
+                    joinDate: user.joinDate || new Date().toISOString()
+                };
+                
+                // Save current user
+                localStorage.setItem('legendCardHub_user', JSON.stringify(this.currentUser));
+                this.updateUI();
+                document.getElementById('login-modal-container').style.display = 'none';
+                this.createSparkles();
+                setTimeout(() => {
+                    alert(`🌟 Welcome back, ${this.currentUser.username}! Your adventure continues!`);
+                }, 500);
+            } else {
+                // Wrong password
+                this.showError('login', '❌ Wrong password! Try again, Trainer.');
+            }
         } else {
-            alert('Please enter both username and password.');
+            // For demo: if user doesn't exist, we can either say "user not found" 
+            // OR let them log in with any password for now (as it was before)
+            // But since the user wants to identify "wrong password", let's assume a default demo user
+            if (loginInput === 'ash' || loginInput === 'ash@pallet.com') {
+                if (password === 'pikachu') {
+                    // Success for demo user
+                    this.isLoggedIn = true;
+                    this.currentUser = { username: 'Ash Ketchum', email: 'ash@pallet.com', joinDate: new Date().toISOString() };
+                    localStorage.setItem('legendCardHub_user', JSON.stringify(this.currentUser));
+                    this.updateUI();
+                    document.getElementById('login-modal-container').style.display = 'none';
+                    this.createSparkles();
+                } else {
+                    this.showError('login', '❌ Wrong password for Ash! Is it his favorite Pokémon?');
+                }
+            } else {
+                // If not demo user and not in localStorage, let's treat it as a generic "User not found" or just let them in if we want to be lenient
+                // Given the request, let's be strict.
+                this.showError('login', '👤 Trainer not found! Did you sign up yet?');
+            }
         }
     }
 
@@ -247,39 +287,82 @@ class LoginComponent {
         const email = document.getElementById('signup-email').value;
         const password = document.getElementById('signup-password').value;
         const confirmPassword = document.getElementById('signup-confirm-password').value;
+        const errorDisplay = document.getElementById('signup-error');
         
+        // Hide previous error
+        errorDisplay.style.display = 'none';
+
+        if (!username || !email || !password || !confirmPassword) {
+            this.showError('signup', 'Please fill in all fields.');
+            return;
+        }
+
+        // Email format validation
+        if (!this.validateEmail(email)) {
+            this.showError('signup', '⚠️ Invalid email address! Please enter a valid email.');
+            return;
+        }
+
         // Validate passwords match
         if (password !== confirmPassword) {
-            alert('Passwords do not match!');
+            this.showError('signup', 'Passwords do not match!');
+            return;
+        }
+
+        if (password.length < 6) {
+            this.showError('signup', 'Password must be at least 6 characters.');
             return;
         }
         
-        // Demo signup validation (replace with actual registration)
-        if (username && email && password) {
-            // Simulate successful signup
-            this.isLoggedIn = true;
-            this.currentUser = {
-                username: username,
-                email: email,
-                joinDate: new Date().toISOString()
-            };
+        // Check if user already exists
+        const storedUsers = JSON.parse(localStorage.getItem('legendCardHub_all_users') || '[]');
+        if (storedUsers.some(u => u.username === username || u.email === email)) {
+            this.showError('signup', 'Username or email already registered!');
+            return;
+        }
+
+        // Save new user to "database"
+        const newUser = {
+            username: username,
+            email: email,
+            password: password,
+            joinDate: new Date().toISOString()
+        };
+        storedUsers.push(newUser);
+        localStorage.setItem('legendCardHub_all_users', JSON.stringify(storedUsers));
+
+        // Auto-login
+        this.isLoggedIn = true;
+        this.currentUser = {
+            username: username,
+            email: email,
+            joinDate: newUser.joinDate
+        };
+        
+        localStorage.setItem('legendCardHub_user', JSON.stringify(this.currentUser));
+        this.updateUI();
+        document.getElementById('login-modal-container').style.display = 'none';
+        this.createSparkles();
+        setTimeout(() => {
+            alert(`🌟 Congratulations, ${username}! Your Trainer journey begins now!`);
+        }, 500);
+    }
+
+    validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    showError(formType, message) {
+        const errorDisplay = document.getElementById(`${formType}-error`);
+        if (errorDisplay) {
+            errorDisplay.textContent = message;
+            errorDisplay.style.display = 'block';
             
-            // Save to localStorage
-            localStorage.setItem('legendCardHub_user', JSON.stringify(this.currentUser));
-            
-            // Update UI
-            this.updateUI();
-            
-            // Close modal
-            document.getElementById('login-modal-container').style.display = 'none';
-            
-            // Show success message
-            this.createSparkles();
-            setTimeout(() => {
-                alert(`🌟 Congratulations, ${username}! Your Trainer journey begins now!`);
-            }, 500);
-        } else {
-            alert('Please fill in all fields.');
+            // Add a slight delay then shake if already displayed
+            errorDisplay.style.animation = 'none';
+            errorDisplay.offsetHeight; // trigger reflow
+            errorDisplay.style.animation = null;
         }
     }
 

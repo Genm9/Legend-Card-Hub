@@ -9,6 +9,7 @@ class PaymentComponent {
     constructor() {
         this.paymentMethods = [];
         this.currentItem = null;
+        this.editingIndex = null;
         this.init();
     }
 
@@ -87,7 +88,10 @@ class PaymentComponent {
                             <input type="checkbox" id="save-payment" checked>
                             <label for="save-payment">Save payment method for future purchases</label>
                         </div>
-                        <button type="submit" class="submit-btn">Complete Payment</button>
+                        <div class="form-actions">
+                            <button type="submit" id="payment-submit-btn" class="submit-btn">Complete Payment</button>
+                            <button type="button" id="cancel-edit-btn" class="cancel-btn" style="display: none;">Cancel Edit</button>
+                        </div>
                     </form>
                 </div>
                 
@@ -149,6 +153,10 @@ class PaymentComponent {
         paypalCheckoutBtn.addEventListener('click', () => {
             this.processPaypalPayment();
         });
+        
+        // Cancel edit button
+        const cancelEditBtn = document.getElementById('cancel-edit-btn');
+        cancelEditBtn.addEventListener('click', () => this.cancelEdit());
         
         // Add event listeners for buy buttons in market
         this.addBuyButtonListeners();
@@ -244,21 +252,43 @@ class PaymentComponent {
                 methodItem.innerHTML = `
                     <div class="payment-method-info">
                         <span class="card-icon">💳</span>
-                        <span class="card-number">**** **** **** ${method.cardNumber.slice(-4)}</span>
-                        <span class="card-expiry">${method.expiry}</span>
+                        <div class="card-details">
+                            <span class="card-number">**** **** **** ${method.cardNumber.slice(-4)}</span>
+                            <span class="card-expiry">${method.expiry}</span>
+                        </div>
                     </div>
-                    <button class="use-payment-method" data-index="${index}">Use</button>
+                    <div class="payment-method-actions">
+                        <button class="use-payment-method" data-index="${index}">Use</button>
+                        <button class="edit-payment-method" data-index="${index}">Edit</button>
+                        <button class="delete-payment-method" data-index="${index}">Delete</button>
+                    </div>
                 `;
                 
                 methodsList.appendChild(methodItem);
             });
             
-            // Add event listeners to use buttons
+            // Add event listeners to buttons
             const useButtons = methodsList.querySelectorAll('.use-payment-method');
             useButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
                     const index = e.target.dataset.index;
                     this.usePaymentMethod(index);
+                });
+            });
+
+            const editButtons = methodsList.querySelectorAll('.edit-payment-method');
+            editButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = e.target.dataset.index;
+                    this.editPaymentMethod(index);
+                });
+            });
+
+            const deleteButtons = methodsList.querySelectorAll('.delete-payment-method');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = e.target.dataset.index;
+                    this.deletePaymentMethod(index);
                 });
             });
             
@@ -279,6 +309,49 @@ class PaymentComponent {
         }
     }
 
+    editPaymentMethod(index) {
+        const method = this.paymentMethods[index];
+        if (method) {
+            this.editingIndex = parseInt(index);
+            
+            // Fill the form
+            document.getElementById('card-name').value = method.cardholderName;
+            document.getElementById('card-number').value = method.cardNumber;
+            document.getElementById('card-expiry').value = method.expiry;
+            document.getElementById('card-address').value = method.billingAddress;
+            
+            // Change button text and show cancel button
+            document.getElementById('payment-submit-btn').textContent = 'Update & Use Card';
+            document.getElementById('cancel-edit-btn').style.display = 'inline-block';
+            
+            // Scroll form into view
+            document.getElementById('card-form-container').scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    deletePaymentMethod(index) {
+        if (confirm('Are you sure you want to delete this payment method?')) {
+            this.paymentMethods.splice(index, 1);
+            localStorage.setItem('legendCardHub_paymentMethods', JSON.stringify(this.paymentMethods));
+            this.updateSavedPaymentMethods();
+            
+            // If we were editing the deleted method, cancel edit
+            if (this.editingIndex === parseInt(index)) {
+                this.cancelEdit();
+            } else if (this.editingIndex > parseInt(index)) {
+                // Adjust editing index if it shifted
+                this.editingIndex--;
+            }
+        }
+    }
+
+    cancelEdit() {
+        this.editingIndex = null;
+        document.getElementById('card-payment-form').reset();
+        document.getElementById('payment-submit-btn').textContent = 'Complete Payment';
+        document.getElementById('cancel-edit-btn').style.display = 'none';
+    }
+
     processCardPayment() {
         // Get form values
         const cardholderName = document.getElementById('card-name').value;
@@ -291,18 +364,32 @@ class PaymentComponent {
         // In a real application, you would send this data to a payment processor
         // For this demo, we'll simulate a successful payment
         
-        // Save payment method if checkbox is checked
+        // Save or Update payment method if checkbox is checked
         if (savePayment) {
-            this.savePaymentMethod({
+            const methodData = {
                 cardholderName,
                 cardNumber,
                 expiry,
                 billingAddress
-            });
+            };
+
+            if (this.editingIndex !== null) {
+                // Update existing method
+                this.paymentMethods[this.editingIndex] = methodData;
+                localStorage.setItem('legendCardHub_paymentMethods', JSON.stringify(this.paymentMethods));
+                this.editingIndex = null; // Reset editing state
+            } else {
+                // Add new method
+                this.savePaymentMethod(methodData);
+            }
         }
         
         // Show success message
         alert(`Payment successful! Thank you for your purchase.`);
+        
+        // Reset form button text and hide cancel button
+        document.getElementById('payment-submit-btn').textContent = 'Complete Payment';
+        document.getElementById('cancel-edit-btn').style.display = 'none';
         
         // Close the modal
         this.closePaymentModal();
